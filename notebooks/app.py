@@ -3,6 +3,18 @@ from content_based_filtering import recommend
 from scipy.sparse import load_npz
 import pandas as pd
 
+import os
+import gdown
+
+FOLDER_URL = "https://drive.google.com/drive/folders/1OD1In1PqYsqGKwXDOZI3NlNd5BTpmhoZ?usp=sharing"
+
+if not os.path.exists("data"):
+    gdown.download_folder(
+        url=FOLDER_URL,
+        output=".",
+        quiet=False,
+        use_cookies=False
+    )
 
 # transfromed data path
 transformed_data_path = "data/data/transformed_data.npz"
