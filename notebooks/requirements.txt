@@ -220,3 +220,4 @@ xyzservices==2024.9.0
 yarl==1.18.3
 zc.lockfile==3.0.post1
 zict==3.0.0
+gdown>=5.2.0
