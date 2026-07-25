@@ -2,25 +2,34 @@ import streamlit as st
 from content_based_filtering import recommend
 from scipy.sparse import load_npz
 import pandas as pd
-
+from pathlib import Path
 import os
 import gdown
 
+BASE_DIR = Path(__file__).resolve().parent
+
 FOLDER_URL = "https://drive.google.com/drive/folders/1OD1In1PqYsqGKwXDOZI3NlNd5BTpmhoZ?usp=sharing"
 
-if not os.path.exists("data"):
+if not (BASE_DIR/"data").exists():
     gdown.download_folder(
         url=FOLDER_URL,
-        output=".",
+        output=str(BASE_DIR),
         quiet=False,
-        use_cookies=False
+        remaining_ok=True
     )
 
-# transfromed data path
-transformed_data_path = "data/data/transformed_data.npz"
+print("Current directory:", BASE_DIR)
+print("Files:", os.listdir(BASE_DIR))
 
-# cleaned data path
-cleaned_data_path = "data/data/cleaned_data.csv"
+# Check both possible folder structures
+if (BASE_DIR / "data" / "cleaned_data.csv").exists():
+    cleaned_data_path = BASE_DIR / "data" / "cleaned_data.csv"
+    transformed_data_path = BASE_DIR / "data" / "transformed_data.npz"
+elif (BASE_DIR / "data" / "data" / "cleaned_data.csv").exists():
+    cleaned_data_path = BASE_DIR / "data" / "data" / "cleaned_data.csv"
+    transformed_data_path = BASE_DIR / "data" / "data" / "transformed_data.npz"
+else:
+    raise FileNotFoundError("Data folder was not downloaded correctly.")
 
 # load the data
 data = pd.read_csv(cleaned_data_path)
