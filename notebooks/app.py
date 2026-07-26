@@ -7,6 +7,19 @@ import os
 import zipfile
 import gdown
 
+import sys
+import subprocess
+
+print("Python:", sys.version)
+
+try:
+    import joblib
+    print("Joblib version:", joblib.__version__)
+except Exception as e:
+    print("Joblib import failed:", e)
+
+print(subprocess.run(["pip", "list"], capture_output=True, text=True).stdout)
+
 BASE_DIR = Path(__file__).resolve().parent
 
 # Google Drive File ID of data.zip
